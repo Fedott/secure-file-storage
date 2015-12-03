@@ -1,0 +1,4 @@
+storage:
+    type: rest
+    resource: "@StorageBundle/Controller/StorageController.php"
+    prefix: /storage/

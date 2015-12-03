@@ -1,6 +1,2 @@
 storage:
-    resource: "@StorageBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
-
+    resource: "@StorageBundle/Resources/config/routing.yml"

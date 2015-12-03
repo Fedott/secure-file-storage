@@ -2,30 +2,22 @@
 
 namespace Fedot\StorageBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use FOS\RestBundle\Controller\Annotations\Route;
+use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DefaultController extends Controller
+class StorageController extends FOSRestController
 {
     /**
-     * @Route("/")
-     */
-    public function indexAction()
-    {
-        return $this->render('StorageBundle:Default:index.html.twig');
-    }
-
-    /**
-     * @Route("/upload", methods={"POST"})
+     * @Route("/upload")
      *
      * @param Request $request
      * @return Response
      */
-    public function uploadAction(Request $request)
+    public function postFilesAction(Request $request)
     {
         $bodyResource = $request->getContent(true);
 
@@ -37,12 +29,13 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/download", methods={"GET"})
+     * @Route("/download")
      *
      * @param Request $request
+     *
      * @return Response
      */
-    public function downloadAction(Request $request)
+    public function getFilesAction(Request $request)
     {
         $jsonBody = json_decode($request->getContent(), true);
 

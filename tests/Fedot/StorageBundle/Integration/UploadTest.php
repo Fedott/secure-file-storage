@@ -19,7 +19,7 @@ class UploadTest extends \PHPUnit_Framework_TestCase
         $fileResource     = fopen($filePath, 'r');
         $fileStream       = \GuzzleHttp\Psr7\stream_for($fileResource);
 
-        $uploadResponse = $client->request('POST', '/upload', ['body' => $fileStream]);
+        $uploadResponse = $client->request('POST', '/storage/upload', ['body' => $fileStream]);
 
         $this->assertEquals(201, $uploadResponse->getStatusCode());
         $body      = $uploadResponse->getBody();
@@ -28,7 +28,7 @@ class UploadTest extends \PHPUnit_Framework_TestCase
         $fileId = $bodyArray['fileId'];
 
 
-        $downloadResponse = $client->request('GET', '/download', [
+        $downloadResponse = $client->request('GET', '/storage/download', [
             'body' => json_encode(['fileId' => $fileId]),
         ]);
 
