@@ -1,0 +1,4 @@
+services:
+#    storage.example:
+#        class: Fedot\StorageBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
