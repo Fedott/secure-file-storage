@@ -3,6 +3,7 @@
 namespace Fedot\StorageBundle\Integration;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 class UploadTest extends \PHPUnit_Framework_TestCase
 {

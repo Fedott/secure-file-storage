@@ -3,6 +3,7 @@
 namespace Fedot\StorageBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\Route;
+use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,10 +22,12 @@ class StorageController extends FOSRestController
     {
         $bodyResource = $request->getContent(true);
 
-        file_put_contents('/tmp/testFile', $bodyResource);
+        $filesystem = $this->container->get('oneup_flysystem.my_filesystem_filesystem');
+        $fileName = uniqid('', true);
+        $filesystem->putStream($fileName, $bodyResource);
 
         return new JsonResponse([
-            'fileId' => 'qweqwe',
+            'fileId' => $fileName,
         ], 201);
     }
 
@@ -38,9 +41,18 @@ class StorageController extends FOSRestController
     public function getFilesAction(Request $request)
     {
         $jsonBody = json_decode($request->getContent(), true);
+        $fileName = $jsonBody['fileId'];
 
-        if ("qweqwe" == $jsonBody['fileId']) {
-            $response = new BinaryFileResponse("/tmp/testFile");
+        $filesystem = $this->container->get('oneup_flysystem.my_filesystem_filesystem');
+
+        if ($filesystem->has($fileName)) {
+            $file = $filesystem->get($fileName);
+            $response = new Response();
+            $response->headers->set('Content-Length', $file->getSize());
+            $response->sendHeaders();
+
+            $output = fopen('php://output', 'w');
+            stream_copy_to_stream($file->readStream(), $output);
 
             return $response;
         }

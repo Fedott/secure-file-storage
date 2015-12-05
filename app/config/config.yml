@@ -35,8 +35,19 @@ framework:
         enabled: true
         enable_annotations: true
 
-
 fos_rest:
     view:
         formats:
             json: true
+    format_listener:
+        rules:
+            fallback_format: json
+
+oneup_flysystem:
+    adapters:
+        my_adapter:
+            local:
+                directory: %kernel.root_dir%/../var/cache/file-storage
+    filesystems:
+        my_filesystem:
+            adapter: my_adapter

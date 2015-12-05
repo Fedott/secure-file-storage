@@ -14,6 +14,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new FOS\RestBundle\FOSRestBundle(),
+            new Oneup\FlysystemBundle\OneupFlysystemBundle(),
             new Fedot\StorageBundle\StorageBundle(),
         );
 
