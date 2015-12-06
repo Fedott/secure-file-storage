@@ -2,6 +2,7 @@
 
 namespace Fedot\StorageBundle\Controller;
 
+use Fedot\StorageBundle\Response\StreamFileResponse;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -47,12 +48,7 @@ class StorageController extends FOSRestController
 
         if ($filesystem->has($fileName)) {
             $file = $filesystem->get($fileName);
-            $response = new Response();
-            $response->headers->set('Content-Length', $file->getSize());
-            $response->sendHeaders();
-
-            $output = fopen('php://output', 'w');
-            stream_copy_to_stream($file->readStream(), $output);
+            $response = new StreamFileResponse($file);
 
             return $response;
         }
